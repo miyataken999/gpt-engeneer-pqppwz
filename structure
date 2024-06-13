@@ -1,0 +1,9 @@
+company_description_prompts
+requirements.txt
+src
+__init__.py
+main.py
+prompt_generator.py
+csv_reader.py
+data
+prompts.csv

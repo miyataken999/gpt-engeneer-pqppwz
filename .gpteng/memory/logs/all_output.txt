@@ -1,0 +1,176 @@
+
+2024-06-13T09:53:22.053938
+================================ System Message ================================
+
+You will get instructions for code to write.
+You will write a very long answer. Make sure that every detail of the architecture is, in the end, implemented as code.
+Think step by step and reason yourself to the correct decisions to make sure we get it right.
+First lay out the names of the core classes, functions, methods that will be necessary, As well as a quick comment on their purpose.
+
+You will output the content of each file necessary to achieve the goal, including ALL code.
+Represent files like so:
+
+FILENAME
+```
+CODE
+```
+
+The following tokens must be replaced like so:
+FILENAME is the lowercase combined path and file name including the file extension
+CODE is the code in the file
+
+Example representation of a file:
+
+src/hello_world.py
+```
+print("Hello World")
+```
+
+Do not comment on what every file does. Please note that the code should be fully functional. No placeholders.
+
+
+You will start with the "entrypoint" file, then go to the ones that are imported by that file, and so on.
+Please note that the code should be fully functional. No placeholders.
+
+Follow a language and framework appropriate best practice file naming convention.
+Make sure that files contain all imports, types etc.  The code should be fully functional. Make sure that code in different files are compatible with each other.
+Ensure to implement all code, if you are unsure, write a plausible implementation.
+Include module dependency or package manager dependency definition file.
+Before you finish, double check that all parts of the architecture is present in the files.
+
+When you are done, write finish with "this concludes a fully working implementation".
+
+Useful to know:
+Almost always put different classes in different files.
+Always use the programming language the user asks for.
+For Python, you always create an appropriate requirements.txt file.
+For NodeJS, you always create an appropriate package.json file.
+Always add a comment briefly describing the purpose of the function definition.
+Add comments explaining very complex bits of logic.
+Always follow the best practices for the requested languages for folder/file structure and how to package the project.
+
+
+Python toolbelt preferences:
+- pytest
+- dataclasses
+
+
+================================ Human Message =================================
+
+Request: prompt000001
+ボットで会社説明で使えるプロンプトを考えて作成してください
+csvに内容は記載prompt000001
+ボットで会社説明で使えるプロンプトを考えて作成してください
+csvに内容は記載
+
+================================== Ai Message ==================================
+
+Based on the request, I will create a Python project that generates company description prompts for a chatbot. The project will consist of several files, including a main entry point, a prompt generator class, and a CSV reader class.
+
+Here is the project structure:
+
+```
+company_description_prompts
+requirements.txt
+src
+__init__.py
+main.py
+prompt_generator.py
+csv_reader.py
+data
+prompts.csv
+```
+
+Here is the code for each file:
+
+**requirements.txt**
+```
+pytest
+dataclasses
+```
+
+**src/__init__.py**
+```
+# empty file
+```
+
+**src/main.py**
+```
+from prompt_generator import PromptGenerator
+from csv_reader import CSVReader
+
+def main():
+    csv_reader = CSVReader('data/prompts.csv')
+    prompts = csv_reader.read_prompts()
+    prompt_generator = PromptGenerator(prompts)
+    generated_prompts = prompt_generator.generate_prompts()
+    for prompt in generated_prompts:
+        print(prompt)
+
+if __name__ == '__main__':
+    main()
+```
+
+**src/prompt_generator.py**
+```
+from dataclasses import dataclass
+import random
+
+@dataclass
+class Prompt:
+    company_name: str
+    industry: str
+    description: str
+
+class PromptGenerator:
+    def __init__(self, prompts):
+        self.prompts = prompts
+
+    def generate_prompts(self):
+        generated_prompts = []
+        for prompt in self.prompts:
+            company_name = prompt.company_name
+            industry = prompt.industry
+            description = prompt.description
+            generated_prompt = f"Can you describe the company {company_name} in the {industry} industry? {description}"
+            generated_prompts.append(generated_prompt)
+        return generated_prompts
+```
+
+**src/csv_reader.py**
+```
+import csv
+from dataclasses import dataclass
+from typing import List
+
+@dataclass
+class Prompt:
+    company_name: str
+    industry: str
+    description: str
+
+class CSVReader:
+    def __init__(self, file_path):
+        self.file_path = file_path
+
+    def read_prompts(self) -> List[Prompt]:
+        prompts = []
+        with open(self.file_path, 'r') as file:
+            reader = csv.reader(file)
+            next(reader)  # skip header
+            for row in reader:
+                company_name, industry, description = row
+                prompt = Prompt(company_name, industry, description)
+                prompts.append(prompt)
+        return prompts
+```
+
+**data/prompts.csv**
+```
+company_name,industry,description
+Google,Technology,A multinational technology company
+Amazon,E-commerce,An American multinational technology company
+Microsoft,Software,A multinational technology company
+```
+
+This concludes a fully working implementation.
